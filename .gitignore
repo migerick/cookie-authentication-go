@@ -19,3 +19,15 @@
 
 # Go workspace file
 go.work
+
+# .ENV file (remove the comment below to include it)
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# Docker
+.go
+.go-cache
+.mysqldb_data
