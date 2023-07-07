@@ -8,34 +8,33 @@ import (
 	"github.com/migerick/cookie-authentication-go/internal/users/domain"
 )
 
-type Login struct {
-	Email    string
-	Password string
+type User struct {
+	Query string
 }
 
-type LoginQueryHandler decorator.QueryHandler[Login, string]
+type GetUsersQueryHandler decorator.QueryHandler[User, string]
 
 type loginHandler struct {
 	userRepo domain.Repository
 }
 
-func NewLoginQueryHandler(
+func NewGetUsersQueryHandler(
 	userRepo domain.Repository,
 	logger *logrus.Entry,
 	metricsClient decorator.MetricsClient,
 
-) LoginQueryHandler {
+) GetUsersQueryHandler {
 	if userRepo == nil {
-		panic("nil userRepo")
+		panic("nil authRepo")
 	}
 
-	return decorator.ApplyQueryDecorators[Login, string](
+	return decorator.ApplyQueryDecorators[User, string](
 		loginHandler{userRepo: userRepo},
 		logger,
 		metricsClient,
 	)
 }
 
-func (l loginHandler) Handle(ctx context.Context, query Login) (string, error) {
-	return l.userRepo.LoginQuery(ctx, query.Email, query.Password)
+func (l loginHandler) Handle(ctx context.Context, user User) (string, error) {
+	return l.userRepo.GetUsers(ctx, user.Query)
 }

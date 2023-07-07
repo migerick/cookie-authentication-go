@@ -12,7 +12,7 @@ Example of cookie authentication using go, gRPC, protobuf and mysql.
 6. The database will be initialized with a user with email
    `email: "test@test.com", password": "test"`
 7. Request the resource `/Login` on the client `localhost:3000/pb.v1.AuthService/Login`.
-8. The response will contain a cookie with a JWT token.
+8. The response will contain a cookie with a UUID.
 
 POST /pb.v1.AuthService/Login HTTP/1.1
 Host: localhost:3000
@@ -33,5 +33,5 @@ Cache-Control: no-cache
 3. The user logs in with the email and password.
 4. The password is hashed using [bcrypt](https://godoc.org/golang.org/x/crypto/bcrypt) and compared with the hashed
    password stored in the database.
-5. If the passwords match, a cookie is set with a JWT token.
-6. The user can access the protected resource by sending the JWT token in the cookie.
+5. If the passwords match, a cookie is set with a UUID.
+6. The user can access the protected resource by sending the UUID in the cookie.

@@ -37,12 +37,16 @@ const (
 	AuthServiceLoginProcedure = "/pb.v1.AuthService/Login"
 	// AuthServiceLogoutProcedure is the fully-qualified name of the AuthService's Logout RPC.
 	AuthServiceLogoutProcedure = "/pb.v1.AuthService/Logout"
+	// AuthServiceGetUsersProcedure is the fully-qualified name of the AuthService's GetUsers RPC.
+	AuthServiceGetUsersProcedure = "/pb.v1.AuthService/GetUsers"
 )
 
 // AuthServiceClient is a client for the pb.v1.AuthService service.
 type AuthServiceClient interface {
 	Login(context.Context, *connect_go.Request[v1.LoginRequest]) (*connect_go.Response[v1.LoginResponse], error)
 	Logout(context.Context, *connect_go.Request[v1.LogoutRequest]) (*connect_go.Response[v1.LogoutResponse], error)
+	// Test
+	GetUsers(context.Context, *connect_go.Request[v1.GetUsersRequest]) (*connect_go.Response[v1.GetUsersResponse], error)
 }
 
 // NewAuthServiceClient constructs a client for the pb.v1.AuthService service. By default, it uses
@@ -65,13 +69,19 @@ func NewAuthServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+AuthServiceLogoutProcedure,
 			opts...,
 		),
+		getUsers: connect_go.NewClient[v1.GetUsersRequest, v1.GetUsersResponse](
+			httpClient,
+			baseURL+AuthServiceGetUsersProcedure,
+			opts...,
+		),
 	}
 }
 
 // authServiceClient implements AuthServiceClient.
 type authServiceClient struct {
-	login  *connect_go.Client[v1.LoginRequest, v1.LoginResponse]
-	logout *connect_go.Client[v1.LogoutRequest, v1.LogoutResponse]
+	login    *connect_go.Client[v1.LoginRequest, v1.LoginResponse]
+	logout   *connect_go.Client[v1.LogoutRequest, v1.LogoutResponse]
+	getUsers *connect_go.Client[v1.GetUsersRequest, v1.GetUsersResponse]
 }
 
 // Login calls pb.v1.AuthService.Login.
@@ -84,10 +94,17 @@ func (c *authServiceClient) Logout(ctx context.Context, req *connect_go.Request[
 	return c.logout.CallUnary(ctx, req)
 }
 
+// GetUsers calls pb.v1.AuthService.GetUsers.
+func (c *authServiceClient) GetUsers(ctx context.Context, req *connect_go.Request[v1.GetUsersRequest]) (*connect_go.Response[v1.GetUsersResponse], error) {
+	return c.getUsers.CallUnary(ctx, req)
+}
+
 // AuthServiceHandler is an implementation of the pb.v1.AuthService service.
 type AuthServiceHandler interface {
 	Login(context.Context, *connect_go.Request[v1.LoginRequest]) (*connect_go.Response[v1.LoginResponse], error)
 	Logout(context.Context, *connect_go.Request[v1.LogoutRequest]) (*connect_go.Response[v1.LogoutResponse], error)
+	// Test
+	GetUsers(context.Context, *connect_go.Request[v1.GetUsersRequest]) (*connect_go.Response[v1.GetUsersResponse], error)
 }
 
 // NewAuthServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -106,12 +123,19 @@ func NewAuthServiceHandler(svc AuthServiceHandler, opts ...connect_go.HandlerOpt
 		svc.Logout,
 		opts...,
 	)
+	authServiceGetUsersHandler := connect_go.NewUnaryHandler(
+		AuthServiceGetUsersProcedure,
+		svc.GetUsers,
+		opts...,
+	)
 	return "/pb.v1.AuthService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AuthServiceLoginProcedure:
 			authServiceLoginHandler.ServeHTTP(w, r)
 		case AuthServiceLogoutProcedure:
 			authServiceLogoutHandler.ServeHTTP(w, r)
+		case AuthServiceGetUsersProcedure:
+			authServiceGetUsersHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -127,4 +151,8 @@ func (UnimplementedAuthServiceHandler) Login(context.Context, *connect_go.Reques
 
 func (UnimplementedAuthServiceHandler) Logout(context.Context, *connect_go.Request[v1.LogoutRequest]) (*connect_go.Response[v1.LogoutResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("pb.v1.AuthService.Logout is not implemented"))
+}
+
+func (UnimplementedAuthServiceHandler) GetUsers(context.Context, *connect_go.Request[v1.GetUsersRequest]) (*connect_go.Response[v1.GetUsersResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("pb.v1.AuthService.GetUsers is not implemented"))
 }

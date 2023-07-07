@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"github.com/bufbuild/connect-go"
+	"github.com/migerick/cookie-authentication-go/internal/users/interceptor"
 	"log"
 	"net/http"
 
@@ -18,7 +20,11 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	registerServices(mux, ctx)
+	interceptors := connect.WithInterceptors(
+		interceptor.NewAuthInterceptor(),
+	)
+
+	registerServices(mux, ctx, interceptors)
 
 	if err := http.ListenAndServe(
 		":3000",
@@ -29,11 +35,11 @@ func main() {
 	}
 }
 
-func registerServices(mux *http.ServeMux, ctx context.Context) {
+func registerServices(mux *http.ServeMux, ctx context.Context, interceptors connect.Option) {
 
 	application := service.NewApplication(ctx)
 
 	login := ports.NewAuthGrpcServer(application)
-	path, handler := pbv1connect.NewAuthServiceHandler(login)
+	path, handler := pbv1connect.NewAuthServiceHandler(login, interceptors)
 	mux.Handle(path, handler)
 }

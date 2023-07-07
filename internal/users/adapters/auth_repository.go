@@ -15,9 +15,10 @@ func (a AuthRepository) Login(ctx context.Context, email string, password string
 	return nil
 }
 
-func (a AuthRepository) LoginQuery(ctx context.Context, email string, password string) (string, error) {
-	fmt.Printf("Login and Password: %s, %s\n", email, password)
-	return "Login success", nil
+func (a AuthRepository) GetUsers(_ context.Context, search string) (string, error) {
+	//TODO: implement connection to database
+	fmt.Printf("Search: %s\n", search)
+	return "These are users", nil
 }
 
 var _ domain.Repository = (*AuthRepository)(nil)

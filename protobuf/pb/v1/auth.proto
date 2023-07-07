@@ -4,11 +4,9 @@ package pb.v1;
 service AuthService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc Logout(LogoutRequest) returns (LogoutResponse) {}
-}
 
-service UserService {
-  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
-  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+  // Test
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
 }
 
 message LoginRequest {
@@ -28,29 +26,8 @@ message LogoutResponse {
   string message = 2;
 }
 
-message CreateUserRequest {
-  string email = 1;
-  string password = 2;
-}
+message GetUsersRequest {}
 
-message CreateUserResponse {
-  bool success = 1;
-  string message = 2;
-}
-
-message GetUserRequest {
-  int64 id = 1;
-  string email = 2;
-}
-
-message User {
-  int64 id = 1;
-  string email = 2;
-  string password = 3;
-}
-
-message GetUserResponse {
-  bool success = 1;
-  string message = 2;
-  User user = 3;
+message GetUsersResponse {
+  string users = 1;
 }

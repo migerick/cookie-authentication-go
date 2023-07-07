@@ -15,5 +15,5 @@ type Commands struct {
 }
 
 type Queries struct {
-	Login query.LoginQueryHandler
+	GetUsers query.GetUsersQueryHandler
 }

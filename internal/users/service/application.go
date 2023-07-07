@@ -14,6 +14,7 @@ import (
 )
 
 func NewApplication(ctx context.Context) app.Application {
+	//	TODO: Connection to database
 	fmt.Printf("context %s", ctx)
 
 	userRepository := adapters.NewAuthRepository()
@@ -27,7 +28,7 @@ func NewApplication(ctx context.Context) app.Application {
 			Login: command.NewLoginCommandHandler(&userRepository, logger, metricsClient),
 		},
 		Queries: app.Queries{
-			Login: query.NewLoginQueryHandler(&userRepository, logger, metricsClient),
+			GetUsers: query.NewGetUsersQueryHandler(&userRepository, logger, metricsClient),
 		},
 	}
 }
