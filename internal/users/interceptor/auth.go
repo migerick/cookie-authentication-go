@@ -7,8 +7,7 @@ import (
 	"github.com/migerick/cookie-authentication-go/protobuf/pb/v1/pbv1connect"
 )
 
-type AuthInterceptor struct {
-}
+type AuthInterceptor struct{}
 
 func NewAuthInterceptor() *AuthInterceptor {
 	return &AuthInterceptor{}

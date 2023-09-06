@@ -3,14 +3,9 @@ package auth
 import (
 	"github.com/bufbuild/connect-go"
 	"net/http"
-	"time"
 )
 
 type Cookie[T any] struct{}
-
-func NewCookie[T any]() Cookie[T] {
-	return Cookie[T]{}
-}
 
 func (c Cookie[T]) Set(request *connect.Response[T], token string) {
 	cookie := SetCookie(token)
@@ -36,13 +31,11 @@ func SetCookie(token string) http.Cookie {
 
 	if token == "" {
 		// Set cookie to expire immediately
-		cookie.Expires = time.Now().Add(0 * time.Second)
 		cookie.MaxAge = -1
 		return cookie
 	}
 
 	// Set cookie to expire in 1 hour
-	cookie.Expires = time.Now().Add(1 * time.Hour)
 	cookie.MaxAge = 3600
 	return cookie
 }

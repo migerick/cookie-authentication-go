@@ -25,7 +25,7 @@ func NewGetUsersQueryHandler(
 
 ) GetUsersQueryHandler {
 	if userRepo == nil {
-		panic("nil authRepo")
+		panic("repository is nil")
 	}
 
 	return decorator.ApplyQueryDecorators[User, string](
@@ -35,6 +35,6 @@ func NewGetUsersQueryHandler(
 	)
 }
 
-func (l loginHandler) Handle(ctx context.Context, user User) (string, error) {
-	return l.userRepo.GetUsers(ctx, user.Query)
+func (h loginHandler) Handle(ctx context.Context, user User) (string, error) {
+	return h.userRepo.GetUsers(ctx, user.Query)
 }

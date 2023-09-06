@@ -10,10 +10,12 @@ type Application struct {
 	Queries  Queries
 }
 
+// Commands : RegisterCommands registers all commands
 type Commands struct {
 	Login command.LoginCommandHandler
 }
 
+// Queries : RegisterQueries registers all queries
 type Queries struct {
 	GetUsers query.GetUsersQueryHandler
 }
