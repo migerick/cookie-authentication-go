@@ -1,7 +1,7 @@
 repo_name: migerick/cookie-authentication-go
-report_id: 10173200161533a6af46a00ad5fd133c
+report_id: c8733429a4976939c550d927d1eb31ce
 repo_type: Public
-timestamp: '2023-12-04T13:04:19+00:00'
+timestamp: '2023-12-14T13:27:33+00:00'
 requested_by: migerick
 provider: github
 branch: main
@@ -110,7 +110,7 @@ tools:
   category: Libraries
   sub_category: Go Modules Packages
   image_url: https://img.stackshare.io/package/go-packages/image.png
-  detection_source_url: github.com/migerick/cookie-authentication-go/blob/main/internal/common/go.sum
+  detection_source_url: https://github.com/migerick/cookie-authentication-go/blob/main/internal/common/go.sum
   detection_source: internal/common/go.mod
   last_updated_by: Miguel Flores
   last_updated_on: 2023-07-07 18:31:53.000000000 Z
@@ -124,7 +124,7 @@ tools:
   category: Libraries
   sub_category: Go Modules Packages
   image_url: https://img.stackshare.io/package/go-packages/image.png
-  detection_source_url: github.com/migerick/cookie-authentication-go/blob/main/internal/users/go.sum
+  detection_source_url: https://github.com/migerick/cookie-authentication-go/blob/main/internal/users/go.sum
   detection_source: internal/users/go.mod
   last_updated_by: Miguel Flores
   last_updated_on: 2023-07-06 20:41:52.000000000 Z
@@ -138,7 +138,7 @@ tools:
   category: Libraries
   sub_category: Go Modules Packages
   image_url: https://img.stackshare.io/package/go-packages/image.png
-  detection_source_url: github.com/migerick/cookie-authentication-go/blob/main/internal/common/go.sum
+  detection_source_url: https://github.com/migerick/cookie-authentication-go/blob/main/internal/common/go.sum
   detection_source: internal/common/go.mod
   last_updated_by: Miguel Flores
   last_updated_on: 2023-07-06 20:41:52.000000000 Z
